@@ -5,39 +5,29 @@ const CountryList = () => {
     const [countries, setCountries] = useState([]);
 
     useEffect(() => {
-        console.log('🟡 APIを呼び出し開始...');
-
         axios.get('http://localhost:3000/countries')
             .then(response => {
-                console.log('🟢 APIレスポンス:', response.data);
                 setCountries(response.data);
             })
             .catch(error => {
-                console.error('🔴 APIエラー:', error);
-                if (error.response) {
-                    console.error('🔴 サーバーエラー:', error.response.status, error.response.data);
-                } else if (error.request) {
-                    console.error('🔴 ネットワークエラー（サーバーに届いていない）:', error.request);
-                } else {
-                    console.error('🔴 予期しないエラー:', error.message);
-                }
+                console.error('データ取得エラー:', error);
             });
     }, []);
 
     return (
-        <div>
-            <h1>🌍 世界の国データ</h1>
-            <ul>
-                {countries.length > 0 ? (
-                    countries.map((country) => (
-                        <li key={country.Code}>
-                            {country.Name} - {country.Continent} - {country.Population.toLocaleString()}人
-                        </li>
-                    ))
-                ) : (
-                    <p>データを読み込み中...</p>
-                )}
-            </ul>
+        <div className="bg-gray-100 min-h-screen p-5">
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-5">
+                世界の国データ
+            </h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                {countries.map((country) => (
+                    <div key={country.Code} className="bg-white p-5 rounded-lg shadow-md">
+                        <h2 className="text-xl font-semibold">{country.Name}</h2>
+                        <p className="text-gray-600">{country.Continent}</p>
+                        <p className="text-gray-500">{country.Population.toLocaleString()} 人</p>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
