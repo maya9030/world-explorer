@@ -11,10 +11,10 @@ app.use(express.json()); // JSONデータを扱う
 
 // MySQL接続情報
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: process.env.DB_HOST || '127.0.0.1',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'password',
-    database: 'world'
+    password: process.env.DB_PASSWORD || '12341234',
+    database: process.env.DB_DATABASE || 'world'
 });
 
 // データベース接続確認
@@ -24,6 +24,12 @@ db.connect(err => {
         return;
     }
     console.log('DB接続成功');
+});
+
+// APIのルートエンドポイント
+// ユーザーが http://localhost:3000/ にアクセスしたときに表示するメッセージ
+app.get('/', (req, res) => {
+    res.send('Welcome to the World Data API! Try /countries');
 });
 
 // API: すべての国を取得
