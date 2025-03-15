@@ -26,12 +26,6 @@ db.connect(err => {
     console.log('DB接続成功');
 });
 
-// APIのルートエンドポイント
-// ユーザーが http://localhost:3000/ にアクセスしたときに表示するメッセージ
-app.get('/', (req, res) => {
-    res.send('Welcome to the World Data API! Try /countries');
-});
-
 // API: すべての国を取得
 app.get('/countries', (req, res) => {
     db.query('SELECT Code, Name, Continent, Population FROM country ORDER BY Name', (err, results) => {
